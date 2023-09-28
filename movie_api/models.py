@@ -19,18 +19,23 @@ class Movie(models.Model):
     about = models.TextField()
     genere = models.CharField(max_length=50)
     language = models.CharField(max_length=10,choices=LANGUAGE_CHOICES)
-    release_data = models.DateTimeField()
+    release_date = models.DateField(auto_now_add=True)
     duration = models.FloatField()
 
+    def __str__(self) -> str:
+        return self.name
 
 
 class Images(models.Model):
-    movie = models.ForeignKey("movie_api.Movie", on_delete=models.CASCADE)
+    movie = models.ForeignKey("movie_api.Movie", on_delete=models.CASCADE,related_name='image')
     image = models.ImageField()
     
-
+    def __str__(self) -> str:
+        return self.movie
 class Cast(models.Model):
-    movie = models.ForeignKey("movie_api.Movie", on_delete=models.CASCADE)
+    movie = models.ForeignKey("movie_api.Movie", on_delete=models.CASCADE,related_name='cast')
     image = models.ImageField()
     name = models.CharField(max_length=50)
     
+    def __str__(self) -> str:
+        return self.movie

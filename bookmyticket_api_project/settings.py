@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # rest framework
+    'rest_framework',
     # debug_toolbar_app
     'debug_toolbar',
     # django_apps
