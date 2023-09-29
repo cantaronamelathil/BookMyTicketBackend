@@ -28,13 +28,13 @@ class Movie(models.Model):
 
 class Images(models.Model):
     movie = models.ForeignKey("movie_api.Movie", on_delete=models.CASCADE,related_name='image')
-    image = models.ImageField()
+    image = models.ImageField(upload_to='movie_images/')
     
     def __str__(self) -> str:
-        return self.movie
+        return f"{self.movie.name} Images"
 class Cast(models.Model):
     movie = models.ForeignKey("movie_api.Movie", on_delete=models.CASCADE,related_name='cast')
-    image = models.ImageField()
+    image = models.ImageField(upload_to='movie_cast_images/')
     name = models.CharField(max_length=50)
     
     def __str__(self) -> str:

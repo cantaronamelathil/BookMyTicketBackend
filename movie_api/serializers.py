@@ -4,6 +4,9 @@ from .models import Movie,Images,Cast
 
 
 class MovieHomeApiSerializer(serializers.ModelSerializer):
+    '''
+    Home page api
+    '''
     class Meta:
         model = Movie
         fields = ['image','name','rating']
@@ -11,27 +14,35 @@ class MovieHomeApiSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
     
     def get_image(self,obj):
-        image_instance = Images.objects.filter(movie=obj).first()
-        if image_instance:
+        if image_instance := Images.objects.filter(movie=obj).first():
             return image_instance.image.url
         return None
-    
 
 
 class ImageAllFieldsSerializer(serializers.ModelSerializer):
+    '''
+    images model all data fetch based on movie object
+    '''
     class Meta:
         model = Images
         fields = ['image']
     
 
 class CastAllFieldsSerializer(serializers.ModelSerializer):
+    '''
+    cast model all data fetch based on movie object
+    '''
     class Meta:
         model = Cast
         fields = ['image','name']
 
 
 class MovieDetailsFetchSerializer(serializers.ModelSerializer):
-    
+    '''
+    All detail view api,
+    fetch Cast model data,
+    fetch Images model data,
+    '''
     class Meta:
         model = Movie
         fields = ['name','rating','about','genere','language','release_date','duration','images','cast']
@@ -40,14 +51,12 @@ class MovieDetailsFetchSerializer(serializers.ModelSerializer):
     cast = serializers.SerializerMethodField()
     
     def get_images(self,obj):
-        instance = Images.objects.filter(movie=obj)
-        if instance:
-            return ImageAllFieldsSerializer(instance=instance,many=True)
+        if instance:=Images.objects.filter(movie=obj):
+            return ImageAllFieldsSerializer(instance=instance,many=True).data
         return None
     
     def get_cast(self,obj):
-        instance = Cast.objects.filter(movie=obj)
-        if instance:
-            return CastAllFieldsSerializer(instance=instance,many=True)
+        if instance:=Cast.objects.filter(movie=obj):
+            return CastAllFieldsSerializer(instance=instance,many=True).data
         return None
         
